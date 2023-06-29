@@ -1,1 +1,1 @@
-# jenkins-nodejs-project
+# node-prj
