@@ -8,7 +8,7 @@ image:
   repository: eden266/nodejs-project
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v4"
+  tag: "v2"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -38,9 +38,9 @@ securityContext: {}
 initialDelaySeconds: 5
 service:
   type: NodePort
-  nodePort: 31456
-  port: 4000
-  targetPort: 4000
+  nodePort: 32451
+  port: 8080
+  targetPort: 83
   protocol: TCP
   name: node-app-service
 
