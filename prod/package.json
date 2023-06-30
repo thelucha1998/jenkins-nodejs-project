@@ -1,0 +1,19 @@
+{
+  "name": "nodejs-project-demo",
+  "version": "1.0.0",
+  "description": "nodejs image demo",
+  "author": "Ja",
+  "license": "MIT",
+  "main": "app.js",
+  "keywords": [
+    "nodejs",
+    "bootstrap",
+    "express"
+  ],
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
