@@ -36,7 +36,9 @@ pipeline {
       steps {
         sh 'docker push eden266/nodejs-project:v2'
         sh 'docker pull eden266/nodejs-project:v2'
-        // sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:jenkins-nodejs'
+        sh 'docker push eden266/nodejs-project-prod:v2'
+	sh 'docker pull eden266/nodejs-project-prod:v2'
+	// sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:jenkins-nodejs'
         /*
         script {
           
