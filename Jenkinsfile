@@ -6,12 +6,12 @@ pipeline {
   environment {
     DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     REGISTRY = 'gitlab-jenkins.opes.com.vn'
-    the project name
-    make sure your robot account have enough access to the project
+    // the project name
+    // make sure your robot account have enough access to the project
     HARBOR_NAMESPACE = 'jenkins-harbor'
-    docker image name
+    // docker image name
     APP_NAME = 'docker-example'
-    ‘robot-test’ is the credential ID you created on the KubeSphere console
+    // ‘robot-test’ is the credential ID you created on the KubeSphere console
     HARBOR_CREDENTIAL = credentials('harbor')
   }
   stages {
