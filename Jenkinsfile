@@ -64,7 +64,7 @@ pipeline {
 
     stage('Push') {
       environment {
-        registryCredential = 'dockerhub'
+        registryCredential = 'harbor'
       }
       steps {
  	// sh 'docker push eden266/nodejs-project:v2'
