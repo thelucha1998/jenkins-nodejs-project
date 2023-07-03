@@ -21,6 +21,46 @@ pipeline {
         // sh '''echo $HARBOR_CREDENTIAL_PSW | docker login $REGISTRY -u 'admin' --password-stdin'''
       }
     }
+
+      stage('Checkout github') {
+        steps {
+            git branch: 'main',
+                credentialsId: 'github-access-token',
+                url: 'https://github.com/thelucha1998/jenkins-nodejs-project.git'
+
+            sh "ls -lat"
+        }
+    }
+  
+  stage('Code Quality Check via SonarQube') {
+
+    steps {
+
+     script {
+
+     def scannerHome = tool 'sonarqube';
+
+       withSonarQubeEnv("sonarqube-container") {
+
+       sh "${tool("sonarqube")}/bin/sonar-scanner \
+
+       -Dsonar.projectKey=test-node-js \
+
+       -Dsonar.sources=. \
+
+       -Dsonar.css.node=. \
+
+       -Dsonar.host.url=http://10.0.6.80:9000 \
+
+       -Dsonar.login=squ_3f3d4d90dee367e1b871d7a09ef95f3dba9dd877"
+
+           }
+
+          }
+
+       }
+
+  }
     stage('Build') {
       steps {
         sh 'docker build -t eden266/nodejs-project:v2 .'
