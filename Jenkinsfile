@@ -10,7 +10,8 @@ pipeline {
     // make sure your robot account have enough access to the project
     HARBOR_NAMESPACE = 'jenkins-harbor'
     // docker image name
-    APP_NAME = 'docker-example'
+    APP_NAME = 'docker-jenkins'
+    APP_NAME_PROD = 'docker-jenkins-prod'
     // ‘robot-test’ is the credential ID you created on the KubeSphere console
     HARBOR_CREDENTIAL = credentials('harbor')
   }
@@ -76,8 +77,10 @@ pipeline {
         script {
           
           docker.withRegistry( 'https://gitlab-jenkins.opes.com.vn', registryCredential ) {
+	    sh 'docker tag gitlab-jenkins.opes.com.vn/jenkins-harbor/docker-jenkins-dev:v1dev gitlab-jenkins.opes.com.vn'
             sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:jenkins-v4dev'
-	    sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:jenkins-v4prod'
+	    sh 'docker tag gitlab-jenkins.opes.com.vn/jenkins-harbor/docker-jenkins-prod:v1prod gitlab-jenkins.opes.com.vn'
+	    sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_PROD:jenkins-v4prod'
           }
         }
         
