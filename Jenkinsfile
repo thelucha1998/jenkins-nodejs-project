@@ -22,14 +22,13 @@ pipeline {
       }
     }
 
-      stage('Checkout github') {
-        steps {
-            git branch: 'main',
-                credentialsId: 'github-access-token',
-                url: 'git@github.com:thelucha1998/jenkins-nodejs-project.git'
-        }
-    }
-  
+ stage("Code Checkout from GitHub") {
+  steps {
+   git branch: 'master',
+    credentialsId: 'github_access_token',
+    url: 'git@github.com:thelucha1998/jenkins-nodejs-project.git'
+  }
+ }
   stage('Code Quality Check via SonarQube') {
 
     steps {
