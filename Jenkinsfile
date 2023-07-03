@@ -57,7 +57,7 @@ pipeline {
       steps {
         // sh 'docker build -t eden266/nodejs-project:v2 .'
 	// sh 'cd prod && docker build -t eden266/nodejs-project-prod:v2 .'
-        sh 'docker build -t $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:v4dev.'
+        sh 'docker build -t $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:v4dev .'
 	sh 'cd prod && docker build -t $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:v4prod .'
       }
     }
