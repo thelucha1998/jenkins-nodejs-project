@@ -5,20 +5,20 @@ pipeline {
   }
   environment {
     DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-    // REGISTRY = 'gitlab-jenkins.opes.com.vn'
-    // the project name
-    // make sure your robot account have enough access to the project
-    // HARBOR_NAMESPACE = 'jenkins-harbor'
-    // docker image name
-    // APP_NAME = 'docker-example'
-    // ‘robot-test’ is the credential ID you created on the KubeSphere console
-    // HARBOR_CREDENTIAL = credentials('harbor')
+    REGISTRY = 'gitlab-jenkins.opes.com.vn'
+    the project name
+    make sure your robot account have enough access to the project
+    HARBOR_NAMESPACE = 'jenkins-harbor'
+    docker image name
+    APP_NAME = 'docker-example'
+    ‘robot-test’ is the credential ID you created on the KubeSphere console
+    HARBOR_CREDENTIAL = credentials('harbor')
   }
   stages {
     stage('Login') {
       steps {
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-        // sh '''echo $HARBOR_CREDENTIAL_PSW | docker login $REGISTRY -u 'admin' --password-stdin'''
+        // sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+        sh '''echo $HARBOR_CREDENTIAL_PSW | docker login $REGISTRY -u 'admin' --password-stdin'''
       }
     }
 
@@ -55,9 +55,10 @@ pipeline {
   }
     stage('Build') {
       steps {
-        sh 'docker build -t eden266/nodejs-project:v2 .'
-	sh 'cd prod && docker build -t eden266/nodejs-project-prod:v2 .'
-        // sh 'docker build -t $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:jenkins-nodejs-project .'
+        // sh 'docker build -t eden266/nodejs-project:v2 .'
+	// sh 'cd prod && docker build -t eden266/nodejs-project-prod:v2 .'
+        sh 'docker build -t $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:v4dev.'
+	sh 'cd prod && docker build -t $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:v4prod .'
       }
     }
 
@@ -66,19 +67,20 @@ pipeline {
         registryCredential = 'dockerhub'
       }
       steps {
-        sh 'docker push eden266/nodejs-project:v2'
-        sh 'docker pull eden266/nodejs-project:v2'
-        sh 'docker push eden266/nodejs-project-prod:v2'
-	sh 'docker pull eden266/nodejs-project-prod:v2'
+ 	// sh 'docker push eden266/nodejs-project:v2'
+ 	// sh 'docker pull eden266/nodejs-project:v2'
+ 	// sh 'docker push eden266/nodejs-project-prod:v2'
+	// sh 'docker pull eden266/nodejs-project-prod:v2'
 	// sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:jenkins-nodejs'
-        /*
+        
         script {
           
           docker.withRegistry( 'https://gitlab-jenkins.opes.com.vn', registryCredential ) {
-            sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:jenkins-nodejs'
+            sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:jenkins-v4dev'
+	    sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:jenkins-v4prod'
           }
         }
-        */
+        
       }
     }
       stage('Deploy Dev') {
