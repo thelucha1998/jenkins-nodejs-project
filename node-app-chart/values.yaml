@@ -4,13 +4,20 @@
 
 replicaCount: 2
 
+#image:
+        #repository: eden266/nodejs-project
+  #pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  # tag: "v2"
+
 image:
-  repository: eden266/nodejs-project
+  repository: gitlab-jenkins.opes.com.vn/jenkins-harbor/docker-jenkins
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v2"
+  tag: "v4"
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: regcred
 nameOverride: ""
 fullnameOverride: ""
 
@@ -38,9 +45,9 @@ securityContext: {}
 initialDelaySeconds: 5
 service:
   type: NodePort
-  nodePort: 32451
+  nodePort: 32453
   port: 8080
-  targetPort: 83
+  targetPort: 85
   protocol: TCP
   name: node-app-service
 
