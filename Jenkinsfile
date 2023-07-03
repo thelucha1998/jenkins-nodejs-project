@@ -78,7 +78,7 @@ pipeline {
           
           docker.withRegistry( 'https://gitlab-jenkins.opes.com.vn', registryCredential ) {
 	    sh 'docker tag gitlab-jenkins.opes.com.vn/jenkins-harbor/docker-jenkins-dev:v4dev gitlab-jenkins.opes.com.vn'
-            sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:jenkins-v4dev'
+            sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_DEV:jenkins-v4dev'
 	    sh 'docker tag gitlab-jenkins.opes.com.vn/jenkins-harbor/docker-jenkins-prod:v4prod gitlab-jenkins.opes.com.vn'
 	    sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_PROD:jenkins-v4prod'
           }
