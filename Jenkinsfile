@@ -26,9 +26,7 @@ pipeline {
         steps {
             git branch: 'main',
                 credentialsId: 'github-access-token',
-                url: 'https://github.com/thelucha1998/jenkins-nodejs-project.git'
-
-            sh "ls -lat"
+                url: 'git@github.com:thelucha1998/jenkins-nodejs-project.git'
         }
     }
   
