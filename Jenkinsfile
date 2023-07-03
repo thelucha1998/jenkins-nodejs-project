@@ -10,7 +10,7 @@ pipeline {
     // make sure your robot account have enough access to the project
     HARBOR_NAMESPACE = 'jenkins-harbor'
     // docker image name
-    APP_NAME = 'docker-jenkins'
+    APP_NAME_DEV = 'docker-jenkins-dev'
     APP_NAME_PROD = 'docker-jenkins-prod'
     // ‘robot-test’ is the credential ID you created on the KubeSphere console
     HARBOR_CREDENTIAL = credentials('harbor')
@@ -58,8 +58,8 @@ pipeline {
       steps {
         // sh 'docker build -t eden266/nodejs-project:v2 .'
 	// sh 'cd prod && docker build -t eden266/nodejs-project-prod:v2 .'
-        sh 'docker build -t $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:v4dev .'
-	sh 'cd prod && docker build -t $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:v4prod .'
+        sh 'docker build -t $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_DEV:v4dev .'
+	sh 'cd prod && docker build -t $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_PROD:v4prod .'
       }
     }
 
