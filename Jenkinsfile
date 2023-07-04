@@ -14,8 +14,8 @@ pipeline {
     APP_NAME_PROD = 'docker-jenkins-prod'
     // ‘robot-test’ is the credential ID you created on the KubeSphere console
     HARBOR_CREDENTIAL = credentials('harbor')
-    IMAGE_TAG_DEV = 'v1dev'
-    IMAGE_TAG_PROD = 'v1prod'
+    IMAGE_TAG_DEV = 'v2dev'
+    IMAGE_TAG_PROD = 'v2prod'
   }
   stages {
     stage('Login') {
