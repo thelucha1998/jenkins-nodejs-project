@@ -14,6 +14,8 @@ pipeline {
     APP_NAME_PROD = 'docker-jenkins-prod'
     // ‘robot-test’ is the credential ID you created on the KubeSphere console
     HARBOR_CREDENTIAL = credentials('harbor')
+    IMAGE_TAG_DEV = 'v1dev'
+    IMAGE_TAG_PROD = 'v1prod'
   }
   stages {
     stage('Login') {
@@ -58,8 +60,8 @@ pipeline {
       steps {
         // sh 'docker build -t eden266/nodejs-project:v2 .'
 	// sh 'cd prod && docker build -t eden266/nodejs-project-prod:v2 .'
-        sh 'docker build -t $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_DEV:v4dev .'
-	sh 'cd prod && docker build -t $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_PROD:v4prod .'
+        sh 'docker build -t $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_DEV:$IMAGE_TAG_DEV .'
+	sh 'cd prod && docker build -t $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_PROD:$IMAGE_TAG_PROD .'
       }
     }
 
@@ -77,10 +79,10 @@ pipeline {
         script {
           
           docker.withRegistry( 'https://gitlab-jenkins.opes.com.vn', registryCredential ) {
-	    sh 'docker tag gitlab-jenkins.opes.com.vn/jenkins-harbor/docker-jenkins-dev:v4dev gitlab-jenkins.opes.com.vn'
-            sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_DEV:v4dev'
-	    sh 'docker tag gitlab-jenkins.opes.com.vn/jenkins-harbor/docker-jenkins-prod:v4prod gitlab-jenkins.opes.com.vn'
-	    sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_PROD:v4prod'
+	    sh 'docker tag $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_DEV:$IMAGE_TAG_DEV $REGISTRY'
+            sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_DEV:IMAGE_TAG_DEV'
+	    sh 'docker tag $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_PROD:$IMAGE_TAG_PROD $REGISTRY'
+	    sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_PROD:IMAGE_TAG_PROD'
           }
         }
         
@@ -90,7 +92,7 @@ pipeline {
         steps{
           script {
             sshagent(credentials : ['my-ssh-key']) {
-                sh 'ssh -o StrictHostKeyChecking=no -i my-ssh-key opes@10.0.10.2 "hostname && cd jenkins-nodejs-project && helm upgrade --install jenkins-nodejs-dev ./node-app-chart"'
+                sh 'ssh -o StrictHostKeyChecking=no -i my-ssh-key opes@10.0.10.2 "hostname && cd jenkins-nodejs-project && helm upgrade --install jenkins-nodejs-dev ./node-app-chart --set image.tag = $IMAGE_TAG_DEV"'
                 
             }
           }
@@ -100,7 +102,7 @@ pipeline {
         steps{
           script {
             sshagent(credentials : ['my-ssh-key']) {
-                sh 'ssh -o StrictHostKeyChecking=no -i my-ssh-key opes@10.0.10.2 "hostname && cd jenkins-nodejs-project/prod && helm upgrade --install jenkins-nodejs-prod ./node-app-chart"'
+                sh 'ssh -o StrictHostKeyChecking=no -i my-ssh-key opes@10.0.10.2 "hostname && cd jenkins-nodejs-project/prod && helm upgrade --install jenkins-nodejs-prod ./node-app-chart --set image.tag = $IMAGE_TAG_PROD"'
                 
             }
           }
