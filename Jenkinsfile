@@ -92,7 +92,7 @@ pipeline {
         steps{
           script {
             sshagent(credentials : ['my-ssh-key']) {
-                sh 'ssh -o StrictHostKeyChecking=no -i my-ssh-key opes@10.0.10.2 "hostname && cd jenkins-nodejs-project && helm upgrade --install jenkins-nodejs-dev ./node-app-chart"'
+                sh 'ssh -o StrictHostKeyChecking=no -i my-ssh-key opes@10.0.10.2 "docker pull $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_DEV:$IMAGE_TAG_DEV && cd jenkins-nodejs-project && helm upgrade --install jenkins-nodejs-dev ./node-app-chart --set image.tag = "$IMAGE_TAG_DEV""'
                 
             }
           }
@@ -102,7 +102,7 @@ pipeline {
         steps{
           script {
             sshagent(credentials : ['my-ssh-key']) {
-                sh 'ssh -o StrictHostKeyChecking=no -i my-ssh-key opes@10.0.10.2 "hostname && cd jenkins-nodejs-project/prod && helm upgrade --install jenkins-nodejs-prod ./node-app-chart"'
+                sh 'ssh -o StrictHostKeyChecking=no -i my-ssh-key opes@10.0.10.2 "docker pull $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_PROD:$IMAGE_TAG_PROD && cd jenkins-nodejs-project/prod && helm upgrade --install jenkins-nodejs-prod ./node-app-chart --set image.tag = "$IMAGE_TAG_PROD""'
                 
             }
           }
