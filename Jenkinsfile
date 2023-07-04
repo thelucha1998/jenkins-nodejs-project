@@ -20,13 +20,6 @@ pipeline {
     RELEASE_PROD = 'jenkins-nodejs-prod-1'
   }
   stages {
-    stage('Login') {
-      steps {
-        // sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-        sh '''echo $HARBOR_CREDENTIAL_PSW | docker login $REGISTRY -u 'admin' --password-stdin'''
-      }
-    }
-
  stage("Code Checkout from GitHub") {
   steps {
    git branch: 'main',
@@ -58,6 +51,12 @@ pipeline {
        }
 
   }
+   stage('Login') {
+      steps {
+        // sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+        sh '''echo $HARBOR_CREDENTIAL_PSW | docker login $REGISTRY -u 'admin' --password-stdin'''
+      }
+    }
     stage('Build') {
       steps {
         // sh 'docker build -t eden266/nodejs-project:v2 .'
