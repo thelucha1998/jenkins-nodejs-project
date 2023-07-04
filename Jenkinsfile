@@ -80,9 +80,9 @@ pipeline {
           
           docker.withRegistry( 'https://gitlab-jenkins.opes.com.vn', registryCredential ) {
 	    sh 'docker tag $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_DEV:$IMAGE_TAG_DEV $REGISTRY'
-            sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_DEV:IMAGE_TAG_DEV'
+            sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_DEV:$IMAGE_TAG_DEV'
 	    sh 'docker tag $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_PROD:$IMAGE_TAG_PROD $REGISTRY'
-	    sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_PROD:IMAGE_TAG_PROD'
+	    sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME_PROD:$IMAGE_TAG_PROD'
           }
         }
         
