@@ -19,7 +19,6 @@ pipeline {
     RELEASE_DEV = 'jenkins-nodejs-dev-1'
     RELEASE_PROD = 'jenkins-nodejs-prod-1'
   }
-  node ('slave1') {
 stages {
  stage("Code Checkout from GitHub") {
   steps {
@@ -116,7 +115,6 @@ stages {
         }     
       }
       
-  }
   }
   post {
     always {
