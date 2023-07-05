@@ -20,6 +20,7 @@ pipeline {
     RELEASE_PROD = 'jenkins-nodejs-prod-1'
   }
   node ('slave1') {
+stages {
  stage("Code Checkout from GitHub") {
   steps {
    git branch: 'main',
@@ -115,6 +116,7 @@ pipeline {
         }     
       }
       
+  }
   }
   post {
     always {
